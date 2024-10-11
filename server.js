@@ -8,18 +8,18 @@ const fs= require ('fs');
 
 const productsRoutes = require('./src/routes/productsRoutes')
 
+//Creamos una aplicacion de express:
+const app= express();
 
 //Json
 app.use(express.json());
 
-//Creamos una aplicacion de express:
-const app= express();
 
 //Definir el Puerto
 const port=3000
 
 //Las rutas
-app.use('/api/products', productsRoutes);
+app.use('/api/productos', productsRoutes);
 
 //Analisis de lo que esta entrando
 app.use (express.urlencoded({extended:true}));

@@ -3,7 +3,7 @@ const fs= require ('fs').promises;
 
 
 
-const archiProduct = path.join(__dirname, '../Data/productos.json')/*  */;
+const archiProduct = path.join(__dirname, '../Data/productos.json');
 
 
 
@@ -40,6 +40,8 @@ const getByIdProducts = async (req, res) => {
         const { id } = req.params;
         const product = products.find(product => product.id === parseInt(id));
 
+        //Validacion del ID
+
         if (!product) {
             return res.status(404).json({ message: 'Producto no encontrado' });
         }
@@ -58,7 +60,7 @@ const getByIdProducts = async (req, res) => {
 const getAllProducts= async(req,res)=>{
     products= await readProducts();
     try {
-        res.json(product)
+        res.json(products)
     } catch (error) {
         res.status(500).json({message: 'Error al obtener los productos'})
     }
@@ -72,7 +74,7 @@ const getAllProducts= async(req,res)=>{
 
 const postProducts =  async(req, res) => {
 
-    const { Nombre, Descripcion, Precio} = req.body;
+    const { Nombre, Precio, Descripcion} = req.body;
 
     if (!Nombre || !Precio || !Descripcion) {
         return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
@@ -81,7 +83,8 @@ const postProducts =  async(req, res) => {
     const newProduct = {
         id: products.length + 1,
         Nombre,
-        Precio
+        Precio,
+        Descripcion
     }
      
     products.push(newProduct);
@@ -131,7 +134,7 @@ const putProductos = async (req,res) => {
     try {
         const products= await readProducts();
         const {id} = req.params;    
-        const { Nombre, Descripcion, Precio } = req.body;
+        const { Nombre, Precio, Descripcion } = req.body;
         const producIndex = products.find(products => products.id == parseInt(id));
         
 
@@ -146,11 +149,11 @@ const putProductos = async (req,res) => {
             products[producIndex].Nombre = Nombre;
 
         }
-        if(Descripcion) {
-            products[producIndex].Descripcion = Descripcion;
-        }
         if(Precio) {
             products[producIndex].Precio = Precio;
+        }
+        if(Descripcion) {
+            products[producIndex].Descripcion= Descripcion;
         }
 
         await writeProducts(products);
