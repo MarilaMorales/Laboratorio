@@ -1,12 +1,12 @@
 //Importar el express
 const express=require('express');
 const path= require('path');
-const cors = requiere('cors');
+const cors = require('cors');
 const fs= require ('fs');
 
 //-rutas
 
-const productsRoutes = require('../src/routes/productsRoutes')
+const productsRoutes = require('./src/routes/productsRoutes')
 
 
 //Json
