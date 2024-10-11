@@ -3,7 +3,7 @@ const fs= require ('fs').promises;
 
 
 
-const archiProduct = path.join(__dirname, '../Data/productos.json')/*  */;
+const archiProduct = path.join(__dirname, '../Data/productos.json');
 
 
 
@@ -24,7 +24,7 @@ async function readProducts() {
 async function writeProducts(products) {
     try {
         const data = JSON.stringify(products);
-        await fs.writeFile(writeProducts, data, 'utf-8');
+        await fs.writeFile(archiProduct, data, 'utf-8');
         
     } catch (error) {
         console.error('Error al escribir el dato', error)
@@ -37,8 +37,10 @@ async function writeProducts(products) {
 const getByIdProducts = async (req, res) => {
     try { 
         const products = await readProducts();
-        const { id } = req.params;
+        const {id} = req.params;
         const product = products.find(product => product.id === parseInt(id));
+
+        //Validacion del ID
 
         if (!product) {
             return res.status(404).json({ message: 'Producto no encontrado' });
@@ -58,7 +60,7 @@ const getByIdProducts = async (req, res) => {
 const getAllProducts= async(req,res)=>{
     products= await readProducts();
     try {
-        res.json(product)
+        res.json(products)
     } catch (error) {
         res.status(500).json({message: 'Error al obtener los productos'})
     }
@@ -72,7 +74,7 @@ const getAllProducts= async(req,res)=>{
 
 const postProducts =  async(req, res) => {
 
-    const { Nombre, Descripcion, Precio} = req.body;
+    const { Nombre, Precio, Descripcion} = req.body;
 
     if (!Nombre || !Precio || !Descripcion) {
         return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
@@ -81,7 +83,8 @@ const postProducts =  async(req, res) => {
     const newProduct = {
         id: products.length + 1,
         Nombre,
-        Precio
+        Precio,
+        Descripcion
     }
      
     products.push(newProduct);
@@ -131,8 +134,8 @@ const putProductos = async (req,res) => {
     try {
         const products= await readProducts();
         const {id} = req.params;    
-        const { Nombre, Descripcion, Precio } = req.body;
-        const producIndex = products.find(products => products.id == parseInt(id));
+        const { Nombre, Precio, Descripcion } = req.body;
+        const producIndex = products.findIndex(products => products.id == parseInt(id));
         
 
         //Validaciones
@@ -141,16 +144,15 @@ const putProductos = async (req,res) => {
             return res.status(404).json({ message: "Producto no encontrado" });
         }
 
-
         if(Nombre) {
             products[producIndex].Nombre = Nombre;
 
         }
-        if(Descripcion) {
-            products[producIndex].Descripcion = Descripcion;
-        }
         if(Precio) {
             products[producIndex].Precio = Precio;
+        }
+        if(Descripcion) {
+            products[producIndex].Descripcion= Descripcion;
         }
 
         await writeProducts(products);
