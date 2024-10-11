@@ -24,7 +24,7 @@ async function readProducts() {
 async function writeProducts(products) {
     try {
         const data = JSON.stringify(products);
-        await fs.writeFile(writeProducts, data, 'utf-8');
+        await fs.writeFile(archiProduct, data, 'utf-8');
         
     } catch (error) {
         console.error('Error al escribir el dato', error)
@@ -37,7 +37,7 @@ async function writeProducts(products) {
 const getByIdProducts = async (req, res) => {
     try { 
         const products = await readProducts();
-        const { id } = req.params;
+        const {id} = req.params;
         const product = products.find(product => product.id === parseInt(id));
 
         //Validacion del ID
@@ -135,7 +135,7 @@ const putProductos = async (req,res) => {
         const products= await readProducts();
         const {id} = req.params;    
         const { Nombre, Precio, Descripcion } = req.body;
-        const producIndex = products.find(products => products.id == parseInt(id));
+        const producIndex = products.findIndex(products => products.id == parseInt(id));
         
 
         //Validaciones
@@ -143,7 +143,6 @@ const putProductos = async (req,res) => {
         if (producIndex === -1) {
             return res.status(404).json({ message: "Producto no encontrado" });
         }
-
 
         if(Nombre) {
             products[producIndex].Nombre = Nombre;

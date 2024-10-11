@@ -1,9 +1,1 @@
-[
-{
-    "id": "1",
-    "Nombre": "Uva",
-    "Descripcion": "Frutas",
-    "Precio": "2000"
-}
-
-]
+[{"id":2,"Nombre":"Fanta 2 litros","Precio":"2500","Descripcion":"kolita"},{"id":3,"Nombre":"Pan Cuadrado","Precio":"3000","Descripcion":"Pan de harina"},{"id":4,"Nombre":"Chicky","Precio":"500","Descripcion":"Galleta"},{"id":5,"Nombre":"Te Frio","Precio":"800","Descripcion":"Bebida"}]
