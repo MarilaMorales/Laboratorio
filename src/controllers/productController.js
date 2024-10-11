@@ -133,7 +133,7 @@ const putProductos = async (req,res) => {
     try {
         const products= await readProducts();
         const {id} = req.params;    
-        const { Nombre, Descripcion, Precio, Cantidad } = req.body;
+        const { Nombre, Descripcion, Precio } = req.body;
         const producIndex = products.find(products => products.id == parseInt(id));
         
 
@@ -142,7 +142,6 @@ const putProductos = async (req,res) => {
         if (producIndex === -1) {
             return res.status(404).json({ message: "Producto no encontrado" });
         }
-
 
 
         if(Nombre) {
@@ -154,9 +153,6 @@ const putProductos = async (req,res) => {
         }
         if(Precio) {
             products[producIndex].Precio = Precio;
-        }
-        if(Cantidad) {
-            products[producIndex].Cantidad = Cantidad;
         }
 
         await writeProducts(products);
