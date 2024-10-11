@@ -11,7 +11,7 @@ const archiProduct = path.join(__dirname, '../Data/productos.json')/*  */;
 async function readProducts() {
     try {
         const data = await fs.readFile(archiProduct, 'utf-8');
-         return JSON. parse(data);
+         return JSON.parse(data);
 
     } catch (error) {
         console.error('Error al leer los datos', error);
